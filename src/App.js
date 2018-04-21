@@ -899,5 +899,49 @@ class Easyform extends React.Component{
 ReactDOM.render(<Easyform />,document.getElementById('app'));
 
 /****************************** Composition vs Inheritance ***********************************/
+//default text
+import Message from './component/inhComp';
+class App extends React.Component{
+    render() {
+        return (
+            <Message>
+                    i'm inheritance from message component
+            </Message>
+        );
+    }
+}
+ReactDOM.render(<App />,document.getElementById('app'));
 
-ReactDOM.render(<app />,document.getElementById('app'));
+//Own convention
+import {LeftSideComponent,Structure} from './component/inhComp';
+class App extends React.Component{
+    render() {
+        return (
+            <Structure rightSide="سمت راست جدول" leftSide={<LeftSideComponent/>}/>
+        );
+    }
+}
+ReactDOM.render(<App />,document.getElementById('app'));
+
+//Specialization component
+/*#1*/
+import {Dialog} from './component/inhComp';
+class App extends React.Component{
+    render() {
+        return (
+            <Dialog title="تیتر کامپوننت اصلی" context="توضیحات کامپوننت اصلی"/>
+        );
+    }
+}
+ReactDOM.render(<App />,document.getElementById('app'));
+
+/*#2*/
+import {WlcDialog} from './component/inhComp';
+class App extends React.Component{
+    render() {
+        return (
+            <WlcDialog/>
+        );
+    }
+}
+ReactDOM.render(<App />,document.getElementById('app'));
