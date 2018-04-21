@@ -897,3 +897,7 @@ class Easyform extends React.Component{
     }
 }
 ReactDOM.render(<Easyform />,document.getElementById('app'));
+
+/****************************** Composition vs Inheritance ***********************************/
+
+ReactDOM.render(<app />,document.getElementById('app'));
