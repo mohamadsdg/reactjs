@@ -1,0 +1,21 @@
+.body {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  font-family: sans-serif;
+}
+
+.header , .main , .footer {
+  padding: 3em;
+  border: 5px solid;
+  margin: 20px;
+}
+.header {
+  color: yellow;
+}
+.main {
+  color : red;
+}
+.footer {
+  color : black;
+}
