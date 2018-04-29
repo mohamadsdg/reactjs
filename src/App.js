@@ -651,7 +651,6 @@ ReactDOM.render(<App wichComponent={true}/>,document.getElementById('app'));
 
 /*MailBox*/
 class Mailbox extends React.Component{
-
     render(){
         const msg = this.props.message;
         if(msg.length > 0){
@@ -664,7 +663,7 @@ class Mailbox extends React.Component{
 const messageData = ['message1','message2','message3'];
 ReactDOM.render(<Mailbox message={messageData}/>,document.getElementById('app'));
 
-/*Login Controler*/
+/*Login Controller*/
 class User extends React.Component{
     render(){
         return <p>you are not login in app</p>
@@ -945,3 +944,33 @@ class App extends React.Component{
     }
 }
 ReactDOM.render(<App />,document.getElementById('app'));
+
+/*#3*/
+import {Dialog,WlcDialog} from './component/inhComp';
+class App extends React.Component{
+    render() {
+        return (
+            <div>
+                <Dialog title="تیتر کامپوننت اصلی" context="توضیحات کامپوننت اصلی"/>
+                <br/><br/>
+                <WlcDialog/>
+            </div>
+        );
+    }
+}
+ReactDOM.render(<App />,document.getElementById('app'));
+
+/****************************** Refs & Dom ***********************************/
+
+/*introduce*/
+class Ref extends React.Component{
+    constructor(props) {
+        super(props);
+        this.myref = React.createRef();
+    }
+    render(){
+        return <div ref={this.myref} />
+    }
+
+}
+ReactDOM.render(<Ref />,document.getElementById('app'));
