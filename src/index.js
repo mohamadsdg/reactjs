@@ -2,12 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 class Ref extends React.Component{
-    constructor(props) {
-        super(props);
-        this.myref = React.createRef();
-    }
     render(){
-        return <div ref={this.myref} />
+        return (
+            <div>
+                <div ref={(node)=> console.log("div",node)  } />
+                <input ref={(node)=> console.log("div",node)  }/>
+            </div>
+        )
     }
 
 }
