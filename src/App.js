@@ -975,7 +975,9 @@ class Ref extends React.Component{
 }
 ReactDOM.render(<Ref />,document.getElementById('app'));
 
-/*info node*/
+/*info node
+* tip : ba ref tonestam be node dastresi dashte basham
+* */
 class Ref extends React.Component{
     render(){
         return (
@@ -985,21 +987,114 @@ class Ref extends React.Component{
             </div>
         )
     }
-
 }
 ReactDOM.render(<Ref />,document.getElementById('app'));
 
 /*exp==>1*/
-class Ref extends React.Component{
-    focusInput(){
-
+class CustomTextInput extends React.Component{
+    constructor(props){
+        super(props);
+        this.textInput = React.createRef();
+        this.focusTextInput = this.focusTextInput.bind(this);
+    }
+    focusTextInput() {
+        this.textInput.current.focus();
     }
     render(){
         return(
             <div>
-                <input type="text" ref={}/>
-                <button ref={(node)=>this.focusInput()}></button>
+                <input type="text" ref={this.textInput} />
+                <input type="button" value="Focus the text input" onClick={this.focusTextInput}/>
+                <a onClick={this.focusTextInput}>btn</a>
             </div>
         )
-    };
+    }
 }
+ReactDOM.render(<CustomTextInput />,document.getElementById('app'));
+
+/*exp  Adding a Ref to a Class Component
+*   tip : ba ref tonestam be component ye class digam dastresi dashte basham
+* */
+class CustomTextInput extends React.Component{
+    constructor(props){
+        super(props);
+        this.textInput = React.createRef();
+        this.focusTextInput = this.focusTextInput.bind(this);
+    }
+    focusTextInput() {
+        this.textInput.current.focus();
+    }
+    render(){
+        return(
+            <div>
+                <input type="text" ref={this.textInput} />
+                <input type="button" value="Focus the text input" onClick={this.focusTextInput}/>
+            </div>
+        )
+    }
+}
+class AutoFocusInput extends React.Component{
+    constructor(props) {
+        super(props);
+        this.textInput2 = React.createRef();
+    }
+    componentDidMount(){
+        this.textInput2.current.focusTextInput()
+    }
+    render(){
+        return(
+            <CustomTextInput ref={this.textInput2} />
+        )
+    }
+}
+ReactDOM.render(<AutoFocusInput />,document.getElementById('app'));
+
+/*exp : callback Ref's
+*
+* tip : React will call the ref callback with the DOM element when the component mounts,
+* and call it with null when it unmounts.
+* ref callbacks are invoked before componentDidMount or componentDidUpdate lifecycle hooks.
+*
+*/
+class CustomTextInput extends React.Component{
+    constructor(props) {
+        super(props);
+        this.setTextInputRef = (node) => {
+            this.textInput = node
+        };
+        this.focusTextInput = () => {
+            this.textInput.focus()
+        };
+    }
+    componentDidMount(){
+        this.focusTextInput();
+    }
+
+    render(){
+        return(
+            <div>
+                <input type="text" ref={this.setTextInputRef} />
+                <input type="button" value="Focus the text input" onClick={this.focusTextInput}/>
+            </div>
+        )
+    }
+}
+ReactDOM.render(<CustomTextInput />,document.getElementById('app'));
+
+/*exp 2 : callback Ref's (without class concept  \\ with approach function) */
+
+function CustomTextInput (props){
+    return <input type="text" ref={props.inputRef}/>
+}
+
+class Parent extends React.Component{
+    componentDidMount() {
+        this.inputElement.focus();
+    }
+    render() {
+        return (
+            <CustomTextInput inputRef={el => this.inputElement = el} />
+        );
+    }
+}
+ReactDOM.render(<Parent/>,document.getElementById('app'));

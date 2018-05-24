@@ -1,15 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class Ref extends React.Component{
-    render(){
-        return (
-            <div>
-                <div ref={(node)=> console.log("div",node)  } />
-                <input ref={(node)=> console.log("div",node)  }/>
-            </div>
-        )
-    }
-
+function CustomTextInput (props){
+    return <input type="text" ref={props.inputRef}/>
 }
-ReactDOM.render(<Ref />,document.getElementById('app'));
+
+class Parent extends React.Component{
+    componentDidMount() {
+        this.inputElement.focus();
+    }
+    render() {
+        return (
+            <CustomTextInput inputRef={el => this.inputElement = el} />
+        );
+    }
+}
+ReactDOM.render(<Parent/>,document.getElementById('app'));
