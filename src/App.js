@@ -1098,3 +1098,85 @@ class Parent extends React.Component{
     }
 }
 ReactDOM.render(<Parent/>,document.getElementById('app'));
+
+/************************** Type checking With PropTypes *****************************/
+import propTypes from 'prop-types';
+/*#1*/
+class PT extends React.Component{
+    constructor(props) {
+        super(props);
+        console.log(this.props.name);
+    }
+    render(){
+        return <input type="text" name={this.name}/>
+    }
+}
+PT.propTypes={
+    name: propTypes.number.isRequired,
+};
+ReactDOM.render(<PT name=' '/>,document.getElementById('app'));
+
+/*#2*/
+class PT extends React.Component{
+    /*used static method in Class */
+    static propTypes = {
+        name: propTypes.number.isRequired,
+    };
+    constructor(props) {
+        super(props);
+        console.log(this.props.name);
+    };
+    render(){
+        return <input type="text" name={this.name}/>
+    }
+}
+ReactDOM.render(<PT name=' '/>,document.getElementById('app'));
+
+/*#3*/
+class PT extends React.Component{
+    /*used static method in Class */
+    static propTypes = {
+        name: propTypes.number,
+        children: propTypes.element.isRequired
+    };
+    constructor(props) {
+        super(props);
+        console.log(this.props.name);
+    };
+    render(){
+        return (
+            <div>
+                <input type="text" name={this.name}/>
+                {this.children}
+            </div>
+        )
+    }
+}
+ReactDOM.render(<PT name={245} children={<a href="#"/>}/>,document.getElementById('app'));
+
+/*#4 ==> default props*/
+class PT extends React.Component{
+    /*used static method in Class */
+    static propTypes = {
+        name: propTypes.string,
+        children: propTypes.element
+    };
+    static defaultProps = {
+        name:"mohammad",
+        children: <h1>Hi</h1> ,
+    };
+    constructor(props) {
+        super(props);
+        console.log(this.props.name);
+    };
+    render(){
+        return (
+            <div>
+                {this.props.children}
+                <input type="text" name={this.name}/>
+            </div>
+        )
+    }
+}
+ReactDOM.render(<PT children={<h3>Hello</h3>}/>,document.getElementById('app'));
+
