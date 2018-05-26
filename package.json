@@ -12,6 +12,7 @@
     "prop-types": "^15.6.1"
   },
   "dependencies": {
+    "materialize-css": "^0.100.2",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-router-dom": "^4.2.2",
