@@ -1,9 +1,30 @@
 import React, {Component} from 'react';
-import 'materialize-css/dist/css/materialize.min.css';
-import 'materialize-css';
-import { Link } from 'react-router-dom'
+import Product from '../data/Product';
+import  axios  from "axios/index";
 
 class Home extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            articles : []
+        }
+
+    }
+    componentDidMount(){
+        axios.get('http://roocket.org/api/products')
+            .then( response => {
+                // console.log(response);
+
+                const {data} = response.data.data;
+                this.setState({
+                    articles : data,
+                });
+
+            }) /// then for catch response
+            .catch( error => {
+                console.log(error);
+            }) /// then for catch Error
+    }
     render() {
         return (
             <div className="row">
@@ -17,97 +38,7 @@ class Home extends Component {
                     </div>
                 </div>
                 <div className='row'>
-                    <div className="col s12 m4">
-                        <div className="card">
-                            <div className="card-image">
-                                <img src="http://via.placeholder.com/400x300"/>
-                                <span className="card-title">Product 1</span>
-                            </div>
-                            <div className="card-content">
-                                <p>I am a very simple card. I am good at containing small bits of information.
-                                    I am convenient because I require little markup to use effectively.</p>
-                            </div>
-                            <div className="card-action">
-                                <Link to="/product/1">This is a link</Link>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col s12 m4">
-                        <div className="card">
-                            <div className="card-image">
-                                <img src="http://via.placeholder.com/400x300"/>
-                                <span className="card-title">Product 2</span>
-                            </div>
-                            <div className="card-content">
-                                <p>I am a very simple card. I am good at containing small bits of information.
-                                    I am convenient because I require little markup to use effectively.</p>
-                            </div>
-                            <div className="card-action">
-                                <Link to="/product/2">This is a link</Link>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col s12 m4">
-                        <div className="card">
-                            <div className="card-image">
-                                <img src="http://via.placeholder.com/400x300"/>
-                                <span className="card-title">Product 3</span>
-                            </div>
-                            <div className="card-content">
-                                <p>I am a very simple card. I am good at containing small bits of information.
-                                    I am convenient because I require little markup to use effectively.</p>
-                            </div>
-                            <div className="card-action">
-                                <Link to="/product/3">This is a link</Link>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="col s12 m4">
-                        <div className="card">
-                            <div className="card-image">
-                                <img src="http://via.placeholder.com/400x300"/>
-                                <span className="card-title">Product 4</span>
-                            </div>
-                            <div className="card-content">
-                                <p>I am a very simple card. I am good at containing small bits of information.
-                                    I am convenient because I require little markup to use effectively.</p>
-                            </div>
-                            <div className="card-action">
-                                <Link to="/product/4">This is a link</Link>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col s12 m4">
-                        <div className="card">
-                            <div className="card-image">
-                                <img src="http://via.placeholder.com/400x300"/>
-                                <span className="card-title">Product 5</span>
-                            </div>
-                            <div className="card-content">
-                                <p>I am a very simple card. I am good at containing small bits of information.
-                                    I am convenient because I require little markup to use effectively.</p>
-                            </div>
-                            <div className="card-action">
-                                <Link to="/product/5">This is a link</Link>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col s12 m4">
-                        <div className="card">
-                            <div className="card-image">
-                                <img src="http://via.placeholder.com/400x300"/>
-                                <span className="card-title">Product 6</span>
-                            </div>
-                            <div className="card-content">
-                                <p>I am a very simple card. I am good at containing small bits of information.
-                                    I am convenient because I require little markup to use effectively.</p>
-                            </div>
-                            <div className="card-action">
-                                <Link to="/product/6">This is a link</Link>
-                            </div>
-                        </div>
-                    </div>
+                    {this.state.articles.map( (ProductItem, index) => <Product key={index} product={ProductItem} /> )}
                 </div>
             </div>
         );
