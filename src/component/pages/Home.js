@@ -1,24 +1,31 @@
 import React, {Component} from 'react';
 import Product from '../data/Product';
+import InfiniteScroll from 'react-infinite-scroller';
 import  axios  from "axios/index";
 
 class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            articles : []
+            articles : [],
+            nextPage : 1,
+            hasMore : true,
         }
 
     }
-    componentDidMount(){
+    loadItems(){
         axios.get('http://roocket.org/api/products')
             .then( response => {
                 // console.log(response);
+                const {current_page , last_page , data} = response.data.data;
+                // console.log(data);
+                this.setState((prevState)=>({
+                    // prevState miad state haye ghabli ke dashtim ro nigar midare
+                    articles : [...prevState.articles , ...data],
+                    hasMore :  current_page !== last_page ,
+                    nextPage : current_page + 1 ,
 
-                const {data} = response.data.data;
-                this.setState({
-                    articles : data,
-                });
+                }));
 
             }) /// then for catch response
             .catch( error => {
@@ -37,9 +44,15 @@ class Home extends Component {
                         </div>
                     </div>
                 </div>
-                <div className='row'>
+                <InfiniteScroll
+                    className='row'
+                    pageStart={0}
+                    loadMore={this.loadItems.bind(this)}
+                    hasMore={this.state.hasMore}
+                    loader={<div className="loader" key={0}>Loading ...</div>}
+                >
                     {this.state.articles.map( (ProductItem, index) => <Product key={index} product={ProductItem} /> )}
-                </div>
+                </InfiniteScroll>
             </div>
         );
     }
