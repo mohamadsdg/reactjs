@@ -855,7 +855,7 @@ class Easyform extends React.Component{
 
         this.setState({
             // bekhatere in az destructuring estefade kardim ke miad har seri
-            // value ra be moteghayer marbotee nesbat midee
+            // value ra be moteghayer form marbotee nesbat midee va chon name input ha ba state yekie update mishe state hamon
             // noktash inbood !!! yeeeeessssss
             [name] : value
 
