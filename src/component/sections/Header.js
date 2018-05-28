@@ -4,6 +4,7 @@ import '../../style.css';
 
 class Header extends Component {
     render() {
+        const {authorize} = this.props;
         return (
             <nav className='light-blue'>
                 <section id='header_part1'>
@@ -25,7 +26,16 @@ class Header extends Component {
                                 </div>
                             </div>
                             <div className='col s12 m3 offset-m3'>
-                                <Link to='/login' className="waves-effect waves-light btn yellow darken-3">Login</Link>
+                                {
+                                    authorize ? (
+                                        <div>
+                                            <Link to='/user_panel' className="waves-effect waves-light btn yellow darken-3">User Panel</Link>
+                                            <button className="waves-effect waves-light btn red darken-3" style={{marginLeft:10}}>Logout</button>
+                                        </div>
+                                    ) : (
+                                        <Link to='/login' className="waves-effect waves-light btn yellow darken-3">Login</Link>
+                                    )
+                                }
                             </div>
                         </div>
                     </div>

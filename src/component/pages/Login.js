@@ -58,6 +58,7 @@ class Login extends Component {
             },*/
              data: formData
         }).then(responsive => {
+            console.log(responsive);
             localStorage.setItem('api_token' , responsive.data.data.api_token);
             // console.log(responsive.data.data.api_token);
 
