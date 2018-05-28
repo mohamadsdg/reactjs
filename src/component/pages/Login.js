@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import validator from 'validator';
+import axios from 'axios';
 
 class Login extends Component {
     constructor(props) {
@@ -27,7 +28,6 @@ class Login extends Component {
             formIsValid = false;
             errors["email"] = "فرمت ایمیل صحیح نمیباشد";
         }
-
         if (validator.isEmpty(fields.password)){
             formIsValid = false;
             errors["password"] = "فیلد پسورد نمیتواند خالی بماند";
@@ -36,29 +36,44 @@ class Login extends Component {
             errors["password"] = "حداقل تعداد کاراکتر پسورد 6 میباشد ";
         }
 
-        // console.log(errors);
         this.setState( {errors} , () => {
-            console.log( callback);
-             // return typeof callback(formIsValid);
+            return callback(formIsValid);
         });
-        console.log( callback);
-        // return formIsValid;
+    }
+    handleRequest(){
+        const {email, password} = this.state.fields;
+        let formData  = new FormData();
+            formData.append('email',email);
+            formData.append('password',password);
+
+           // console.log(formData);
+        axios({
+            url: 'http://roocket.org/api/login',
+            method: 'post',
+            dataType : 'json',
+            headers: {'Accept': 'application/json'} ,
+           /* data: {
+                'email': email,
+                'password': password,
+            },*/
+             data: formData
+        }).then(responsive => {
+            localStorage.setItem('api_token' , responsive.data.data.api_token);
+            // console.log(responsive.data.data.api_token);
+
+        }).catch(error => {
+            // console.log(error);
+        })
     }
     handleSubmit(e){
         e.preventDefault();
         this.handleValidate( (valid)=>{
             if (valid){
-                // console.log('validForm');
+                this.handleRequest();
             } else{
-                // console.log(this.state.errors);
+                console.log(this.state.errors);
             }
         });
-/*        if (this.handleValidate()) {
-            console.log('validForm');
-        }else{
-            console.log(this.state.errors);
-            // console.log('invalidForm');
-        }*/
     }
     handleChange(e){
         let fields = this.state.fields;
@@ -68,7 +83,7 @@ class Login extends Component {
     }
     render() {
         const {email,password} = this.state.fields ;
-        const {error} = this.state ;
+        const {errors} = this.state ;
         return (
             <div>
                 <h1>Login page</h1>
@@ -82,6 +97,7 @@ class Login extends Component {
                                        value={email}
                                        onChange={this.handleChange.bind(this)}/>
                                 <label htmlFor="email">Email</label>
+                                <span className={ ["red", errors['email'] ? "darken-1":""].join(' ') } style={{color:"#fff",padding:"5px 10px", display: errors['email'] ? 'block' : 'none'}}>{errors['email']}</span>
                             </div>
                         </div>
                         <div className="row">
@@ -92,6 +108,7 @@ class Login extends Component {
                                        value={password}
                                        onChange={this.handleChange.bind(this)}/>
                                 <label htmlFor="password">Password</label>
+                                <span className={ ["red", errors['password'] ? "darken-1":""].join(' ') } style={{color:"#fff",padding:"5px 10px", display: errors['password'] ? 'block' : 'none'}}>{errors['password']}</span>
                             </div>
                         </div>
                         <div className='row'>
@@ -103,5 +120,7 @@ class Login extends Component {
         );
     }
 }
-
+// ye bahsi hast bename jwt (json web token )ke vaghti ehraze hoviyate vagheE mikonim
+// baste be zababane backend be ma ye token mide ke in token
+// scope access  dar site ro be ma mojavez mide
 export default Login;
