@@ -5,6 +5,9 @@ import axios from 'axios';
 class Login extends Component {
     constructor(props) {
         super(props);
+        if (this.props.authorize){
+            this.props.history.push('/');
+        }
         this.state = {
             fields : {
                 email : '',
@@ -58,9 +61,14 @@ class Login extends Component {
             },*/
              data: formData
         }).then(responsive => {
-            console.log(responsive);
+            // console.log(responsive);
             localStorage.setItem('api_token' , responsive.data.data.api_token);
+            this.props.history.push('/');
+            // console.log(this.props);
             // console.log(responsive.data.data.api_token);
+            /*tip*** : in baraye ine ke vaghti token gerefti dokme login neshon bede :|
+            * chon in props ye methode va mikhad ejra beshe bayad () ham bezarin */
+            this.props.login();
 
         }).catch(error => {
             // console.log(error);

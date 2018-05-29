@@ -61,27 +61,44 @@ class App extends Component {
             this.setState({isAuthenticated : false})
         }
     }
+    handleLogout(){
+        // tip**** :baraye inke ma ba component header dar ertebat bashim bayad karemono ba props be component esh begim
+        localStorage.removeItem('api_token');
+        this.setState({isAuthenticated : false});
+    }
+    handleLogin(){
+        this.setState({isAuthenticated : true});
+    }
     render() {
         const { isAuthenticated : auth} = this.state ;
         return (
             <div>
-                <Header authorize={auth}/>
+                <Header authorize={auth} logout={this.handleLogout.bind(this)}/>
                 <div className='container'>
                     <Switch>
                         <Route path='/' exact={true} component={Home}/>
                         <Route path='/product/:ProductID' component={Product}/>
                         <Route path='/contact_us' component={Contact}/>
                         <Route path='/about_us' component={About}/>
-                        <Route path='/login' component={Login}/>
+
+                        <Route path='/login' render ={props => (
+                            /*component={Login}*/
+                            /* tip : vasa component login vazeyate auth ro mifrestim ta age auth bod befrestatesh safhe asli*/
+                            /* tip : vasa component login vazeyate auth ro mifrestim ta age auth bod befrestatesh safhe asli*/
+                            <Login {...props} authorize={auth} login={this.handleLogin.bind(this)}/>
+                            )} />
+
                         <PrivateRoute path='/user_panel' component={UserPanel} authorize={auth}/>
-                        {/*inja component PrivateRoute gharare vase ye route ro bargardone ke be koja bayad beram !!
+                        /*inja component PrivateRoute gharare vase ye route ro bargardone ke be koja bayad beram !!
                             masalan age auth nashode bood redirect kon be login
                             age shode bood boro to safe UserPanel
                             ------------------------
                             in component gharare ye seri props daryaft kone path va component
                             okey !!
                             khob vali in Route nemitone props dashte bashe ta badan dalilesho peida konam
-                        */}
+                            dalilesh ine ke age bekhaym behesh props bedim bayad besorate render benevisim
+                            mesle route login
+                        */
                         <Route component={Not_found}/>
                     </Switch>
                 </div>

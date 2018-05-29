@@ -29,8 +29,8 @@ class Header extends Component {
                                 {
                                     authorize ? (
                                         <div>
+                                            <button className="waves-effect waves-light btn red darken-3" style={{marginRight:15}} onClick={this.props.logout}>Logout</button>
                                             <Link to='/user_panel' className="waves-effect waves-light btn yellow darken-3">User Panel</Link>
-                                            <button className="waves-effect waves-light btn red darken-3" style={{marginLeft:10}}>Logout</button>
                                         </div>
                                     ) : (
                                         <Link to='/login' className="waves-effect waves-light btn yellow darken-3">Login</Link>
