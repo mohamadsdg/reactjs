@@ -8,15 +8,14 @@ class PrivateRoute extends Component {
         path : PropTyps.string.isRequired,
     };
     render() {
-        const { component : Component ,authorize , ...restProps} = this.props ;
+        const { component : Component , authorize  , ...restProps} = this.props ;
         return (
             // render yeseri props migire va in props ha mitone az Route ha gerefte beshe in to logic react-router-dom hastesh
             <Route {...restProps} render={(props)=> (
-                // console.log(props),
-                    authorize ? (
+                authorize ? (
                     <Component {...props}/>
                 ) : (
-                    <Redirect to={{ pathname:'/login' , state: { from : props.location } }} />
+                    <Redirect to={{ pathname:'/login' }} />
                 )
             )}>
             </Route>

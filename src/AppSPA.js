@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Header from "./component/sections/Header";
 import {Route ,Switch} from 'react-router-dom';
 import PropTyps from 'prop-types';
+import axios from 'axios';
 
 // tip+++ : tavajoh dashte bash ke tamame route haye asli ma to app.js tarif mishe
 // va baghie route ha ra bayad mese PrivateRoute bahash barkhord konim
@@ -28,18 +29,37 @@ class App extends Component {
             isAuthenticated : false ,
         }
     }
-    componentDidMount(){
+    // tip +++ : ghabl az inke render component render beshe bayda route ro moshakhas konim vase hamin
+    // az WillMount estefade kardim
+    // tip*** :  componentWillMount < Render Component < componentDidMount
+    componentWillMount(){
         let apiToken = localStorage.getItem('api_token');
-        if (apiToken !== null ) {
-            console.log(apiToken);
-            this.setState({isAuthenticated : true})
+        if ( apiToken !== null ) {
+            this.setState({isAuthenticated : true});
         }else{
             this.setState({isAuthenticated : false})
         }
-       /* axios({
-            url: '',
-            method : '',
-        })*/
+    }
+    componentDidMount(){
+        // age api token dastkari shode bashe ba bayad biyaym check konim ke aya in api_token
+        // valid hastesh ya naa (tip: bbin vaghti auth shodi un token ke ro ke gerefti vase ghashangi nabode ke
+        // bayad azash estefade koni vase inke server bedone to dastresii dari be yeseri az rout haa)
+
+        let apiToken = localStorage.getItem('api_token');
+        if ( apiToken !== null ) {
+            axios({
+                url: `http://roocket.org/api/user?api_token=${apiToken}`,
+                method: 'get',
+            }).then( response => {
+                // console.log(response);
+                this.setState({isAuthenticated : true});
+            }).catch( error => {
+                this.setState({isAuthenticated : false});
+                // console.log(error);
+            })
+        }else{
+            this.setState({isAuthenticated : false})
+        }
     }
     render() {
         const { isAuthenticated : auth} = this.state ;
