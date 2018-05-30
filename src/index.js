@@ -1,11 +1,8 @@
-import React,{Component} from 'react';
-import ReactDOM,{render} from 'react-dom';
-import { BrowserRouter as Router} from 'react-router-dom'
-import App from "./AppSPA";
+import React from 'react';
+import {render} from 'react-dom';
+import {Board,Note} from "./AppNote";
 
 render(
-    <Router>
-        <App/>
-    </Router>
+    <Board count={10} />
     ,document.getElementById('app')
 );
